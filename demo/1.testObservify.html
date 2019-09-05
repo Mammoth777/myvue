@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>测试数据劫持</title>
+</head>
+<body>
+  
+<script type="module">
+
+import observify from '../src/data.js'
+const obj = {
+  name: 'gaga',
+  age: 18,
+  hobbies: ['吃饭', '睡觉', '打豆豆'],
+  friends: [
+    {name: 'Bob', age: 10},
+    {name: 'Hobo', age: 12}
+  ],
+  level: {
+    Math: 'A',
+    Teco: 'B'
+  }
+}
+const proxyObj = observify(obj)
+
+console.log(proxyObj.name);
+console.log(proxyObj.age);
+console.log(proxyObj.hobbies.toString());
+console.log(proxyObj.friends.map(v => v.name + v.age))
+console.log('---开始set');
+proxyObj.age = 19 // 只有这个触发了set
+proxyObj.hobbies.push('nice')
+proxyObj.friends.shift()
+proxyObj.friends[0].name = 'keke'
+proxyObj.friends[0].another = 'aaaa'
+proxyObj.level.Math = 'A+'
+console.log('---结束set');
+console.log(obj, proxyObj)
+console.log(proxyObj.name);
+console.log(proxyObj.age);
+console.log(proxyObj.hobbies);
+console.log(proxyObj.friends);
+console.log(proxyObj.level);
+
+
+
+
+
+
+</script>
+</body>
+</html>
