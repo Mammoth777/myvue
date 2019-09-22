@@ -19,18 +19,28 @@ class Compile {
       }
     })
   }  
-  // 编译文本节点， 抽出插值表达式， 订阅该变量变化
+  // 编译文本节点， 抽出插值表达式及指令， 订阅该变量变化
+  // todo 解析指令
+  // done TODO 获取文本所有插值
   textCompile (node) {
     const text = node.textContent
-    if (/({{\s*(\w+)\s*}})/.test(text)) {
-      // TODO 获取文本所有插值
-      const interpolation = RegExp.$1 // {{ hello }}
-      const interText = RegExp.$2 // hello  插值内容
-      new Watcher(this.vm, interpolation, (newVal, oldVal) => {
+    const reg = /(?<outer>{{\s*(?<inner>\w+(\.\w+)*)\s*}})/
+    let index = 0
+    let match = text.substr(index).match(reg)
+    // eslint-disable-next-line no-cond-assign
+    while (match) {
+      // 解析插值
+      const interpolation = match.groups.outer
+      const interText = match.groups.inner
+      new Watcher(this.vm, interText, (newVal, oldVal) => {
         console.log('watcher cb 。。。')
+        console.log({newVal, oldVal})
+        node.textContent = node.textContent.replace(interpolation, newVal)
       })
-    }
 
+      index += match.index + match.groups.outer.length
+      match = text.substr(index).match(reg)
+    }
   }
 }
 

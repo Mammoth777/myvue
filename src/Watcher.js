@@ -54,7 +54,7 @@ export class Watcher {
     console.log('watcher update')
     // todo： 这里如果是引用数据类型，岂不是oldVal和newVal一毛一样， 那咋处理啊。。。
     let oldVal = this.oldVal
-    let newVal = this.vm[this.attr]
+    let newVal = this.vm.data[this.attr]
     this.cb(newVal, oldVal)
   }
 }
