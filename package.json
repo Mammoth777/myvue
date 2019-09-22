@@ -10,5 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "eslint": "^6.3.0"
-  }
+  },
+  "dependencies": {}
 }

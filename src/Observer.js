@@ -2,6 +2,7 @@ import {
   isObject,
   isArray
 } from './utils.js'
+import { Dep } from './Watcher.js'
 
 /**
  * 把对象做成代理对象
@@ -23,8 +24,6 @@ const observify = function (obj) {
     // 递归对象
     obj[key] = observify(obj[key])
   })
-
-
   return defineReactive(obj)
 }
 
@@ -32,21 +31,23 @@ const observify = function (obj) {
  * 设置数据响应
  */
 function defineReactive(obj) {
+  let dep = new Dep()
   return new Proxy(obj, {
     get(target, key) {
       console.log('get ' + key)
+      if (Dep.target) {
+        console.log(Dep.target, 'Dep.target')
+        dep.addSub(Dep.target)
+      }
       return target[key]
     },
     set(target, key, value) {
       console.log('set ' + key + ' : ' + value)
       target[key] = value
+      dep.notify()
       return true
     }
   })
 }
 
 export default observify
-
-// export default class Watcher {
-
-// }

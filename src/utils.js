@@ -5,3 +5,11 @@ export function isObject (obj) {
 export function isArray (arr) {
   return Object.prototype.toString.call(arr) === '[object Array]'
 }
+
+export function getDom (el) {
+  if (typeof el === 'string') {
+    return document.querySelector(el)
+  } else {
+    return el
+  }
+}
