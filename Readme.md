@@ -1,3 +1,9 @@
+一份抄作业的仓库
+
+抄写地址
+- [https://github.com/old-atong/myVue](https://github.com/old-atong/myVue)
+- [proxy vue](https://github.com/callmedadaxin/proxy-vue)
+
 - [ ] 使用proxy实现基本的数据驱动
 - [ ] 观察者模式订阅更新
 - [ ] 精准依赖收集
