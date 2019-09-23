@@ -24,7 +24,8 @@ class Compile {
   // done TODO 获取文本所有插值
   textCompile (node) {
     const text = node.textContent
-    const reg = /(?<outer>{{\s*(?<inner>\w+(\.\w+)*)\s*}})/
+    // const reg = /(?<outer>{{\s*(?<inner>\w+(\.\w+)*)\s*}})/
+    const reg = /(?<outer>{{\s*(?<inner>\S+)\s*}})/
     let index = 0
     let match = text.substr(index).match(reg)
     // eslint-disable-next-line no-cond-assign

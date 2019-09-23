@@ -1,3 +1,5 @@
+import { getNestedValue } from "./utils.js"
+
 /**
  * Dependency 依赖收集【发布订阅模式】
  * > Dep作为被观察者， 可以被多个指令订阅
@@ -44,7 +46,8 @@ export class Watcher {
     this.attr = attr
     this.cb = cb
     Dep.target = this
-    this.oldVal = vm.data[attr] // 走了vm[attr]的get， 会自动触发dep.addSub
+    // this.oldVal = vm.data[attr] // 走了vm[attr]的get， 会自动触发dep.addSub
+    this.oldVal = getNestedValue(vm.data, attr) // 假如attr是一个表达式， 那么就执行一波
     Dep.target = null
   }
   /**
@@ -54,7 +57,8 @@ export class Watcher {
     console.log('watcher update')
     // todo： 这里如果是引用数据类型，岂不是oldVal和newVal一毛一样， 那咋处理啊。。。
     let oldVal = this.oldVal
-    let newVal = this.vm.data[this.attr]
+    // let newVal = this.vm.data[this.attr]
+    let newVal = getNestedValue(this.vm.data, this.attr)
     this.cb(newVal, oldVal)
   }
 }
